@@ -7653,7 +7653,12 @@ a.theme-btn {
     transition: all 500ms ease; }
   .main-header .header-inner {
     border-bottom: 1px solid var(--border-color); }
+    .logo-outer {
+      height: 70px;
+      width: 70px;
+    }
   .main-header .logo-outer {
+  
     -webkit-box-flex: 0;
     -ms-flex: none;
     flex: none; }
@@ -7664,8 +7669,8 @@ a.theme-btn {
     z-index: 9;
     padding: 2px 0;
     position: relative; }
-  .main-header.menu-absolute .header-upper {
-    position: absolute; }
+  /* .main-header.menu-absolute .header-upper {
+    position: absolute; } */
   .main-header.fixed-header .header-upper {
     top: 0;
     left: 0;
@@ -8101,7 +8106,14 @@ a.theme-btn {
     font-size: 16px;
     padding: 10px 15px;
     margin-bottom: 20px;
-    border-color: white; }
+    border-color: white; }  
+
+    .voter-img{
+      width: 100px;
+      height: 100px;
+     margin:10px auto;
+      
+    }
 
 .form-back-drop {
   position: fixed;
