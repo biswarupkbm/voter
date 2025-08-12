@@ -153,6 +153,10 @@
             <input type="text" name="name" placeholder="Full Name" value="{{ old('name') }}" required>
             <input type="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
             <input type="text" name="contact" placeholder="Contact Number" value="{{ old('contact') }}" required>
+            <select name="otp_method" required>
+                <option value="">Select OTP Method</option>
+                <option value="email" {{ old('otp_method') == 'email' ? 'selected' : '' }}>Email</option>
+            </select>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Sign Up</button>
         </form>
