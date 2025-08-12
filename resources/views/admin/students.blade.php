@@ -11,38 +11,38 @@
 	<title>Preskool Admin Template</title>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="asset/assets/img/favicon.png">
 
 	<!-- Theme Script js -->
-	<script src="assets/js/theme-script.js"></script>
+	<script src="asset/assets/js/theme-script.js"></script>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="asset/assets/css/bootstrap.min.css">
 
 	<!-- Feather CSS -->
-	<link rel="stylesheet" href="assets/plugins/icons/feather/feather.css">
+	<link rel="stylesheet" href="asset/assets/plugins/icons/feather/feather.css">
 
 	<!-- Tabler Icon CSS -->
-	<link rel="stylesheet" href="assets/plugins/tabler-icons/tabler-icons.css">
+	<link rel="stylesheet" href="asset/assets/plugins/tabler-icons/tabler-icons.css">
 
 	<!-- Daterangepikcer CSS -->
-	<link rel="stylesheet" href="assets/plugins/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" href="asset/assets/plugins/daterangepicker/daterangepicker.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="asset/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="asset/assets/plugins/fontawesome/css/all.min.css">
 
 	<!-- Datatable CSS -->
-	<link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" href="asset/assets/css/dataTables.bootstrap5.min.css">
 
 	<!-- Select2 CSS -->
-	<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="asset/assets/plugins/select2/css/select2.min.css">
 
 	<!-- Datetimepicker CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="asset/assets/css/bootstrap-datetimepicker.min.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="asset/assets/css/style.css">
 
 </head>
 
@@ -57,13 +57,13 @@
 			<!-- Logo -->
 			<div class="header-left active">
 				<a href="index.html" class="logo logo-normal">
-					<img src="assets/img/logo.svg" alt="Logo">
+					<img src="asset/assets/img/logo.svg" alt="Logo">
 				</a>
 				<a href="index.html" class="logo-small">
-					<img src="assets/img/logo-small.svg" alt="Logo">
+					<img src="asset/assets/img/logo-small.svg" alt="Logo">
 				</a>
 				<a href="index.html" class="dark-logo">
-					<img src="assets/img/logo-dark.svg" alt="Logo">
+					<img src="asset/assets/img/logo-dark.svg" alt="Logo">
 				</a>
 				<a id="toggle_btn" href="javascript:void(0);">
 					<i class="ti ti-menu-deep"></i>
@@ -120,20 +120,20 @@
 						<div class="pe-1 ms-1">
 							<div class="dropdown">
 								<a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center me-1 p-2"  data-bs-toggle="dropdown" aria-expanded="false">
-									<img src="assets/img/flags/us.png" alt="Language" class="img-fluid rounded-pill">
+									<img src="asset/assets/img/flags/us.png" alt="Language" class="img-fluid rounded-pill">
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="javascript:void(0);" class="dropdown-item active d-flex align-items-center">
-										<img class="me-2 rounded-pill" src="assets/img/flags/us.png" alt="Img" height="22" width="22"> English
+										<img class="me-2 rounded-pill" src="asset/assets/img/flags/us.png" alt="Img" height="22" width="22"> English
 									</a>
 									<a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">
-										<img class="me-2 rounded-pill" src="assets/img/flags/fr.png" alt="Img" height="22" width="22"> French
+										<img class="me-2 rounded-pill" src="asset/assets/img/flags/fr.png" alt="Img" height="22" width="22"> French
 									</a>
 									<a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">
-										<img class="me-2 rounded-pill" src="assets/img/flags/es.png" alt="Img" height="22" width="22"> Spanish
+										<img class="me-2 rounded-pill" src="asset/assets/img/flags/es.png" alt="Img" height="22" width="22"> Spanish
 									</a>
 									<a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">
-										<img class="me-2 rounded-pill" src="assets/img/flags/de.png" alt="Img" height="22" width="22"> German
+										<img class="me-2 rounded-pill" src="asset/assets/img/flags/de.png" alt="Img" height="22" width="22"> German
 									</a>
 								</div>
 							</div>
@@ -235,7 +235,7 @@
 											<a href="activities.html">
 												<div class="d-flex">
 													<span class="avatar avatar-lg me-2 flex-shrink-0">
-														<img src="assets/img/profiles/avatar-27.jpg" alt="Profile">
+														<img src="asset/assets/img/profiles/avatar-27.jpg" alt="Profile">
 													</span>
 													<div class="flex-grow-1">
 														<p class="mb-1"><span class="text-dark fw-semibold">Shawn</span> performance in Math is
@@ -249,7 +249,7 @@
 											<a href="activities.html" class="pb-0">
 												<div class="d-flex">
 													<span class="avatar avatar-lg me-2 flex-shrink-0">
-														<img src="assets/img/profiles/avatar-23.jpg" alt="Profile">
+														<img src="asset/assets/img/profiles/avatar-23.jpg" alt="Profile">
 													</span>
 													<div class="flex-grow-1">
 														<p class="mb-1"><span class="text-dark fw-semibold">Sylvia</span> added appointment on
@@ -267,7 +267,7 @@
 											<a href="activities.html">
 												<div class="d-flex">
 													<span class="avatar avatar-lg me-2 flex-shrink-0">
-														<img src="assets/img/profiles/avatar-25.jpg" alt="Profile">
+														<img src="asset/assets/img/profiles/avatar-25.jpg" alt="Profile">
 													</span>
 													<div class="flex-grow-1">
 														<p class="mb-1">New student record <span class="text-dark fw-semibold"> George</span> is
@@ -281,7 +281,7 @@
 											<a href="activities.html">
 												<div class="d-flex">
 													<span class="avatar avatar-lg me-2 flex-shrink-0">
-														<img src="assets/img/profiles/avatar-01.jpg" alt="Profile">
+														<img src="asset/assets/img/profiles/avatar-01.jpg" alt="Profile">
 													</span>
 													<div class="flex-grow-1">
 														<p class="mb-1">A new teacher record for <span class="text-dark fw-semibold">Elisa</span>
@@ -318,14 +318,14 @@
 						<div class="dropdown ms-1">
 							<a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
 								<span class="avatar avatar-md rounded">
-									<img src="assets/img/profiles/avatar-27.jpg" alt="Img" class="img-fluid">
+									<img src="asset/assets/img/profiles/avatar-27.jpg" alt="Img" class="img-fluid">
 								</span>
 							</a>
 							<div class="dropdown-menu">
 								<div class="d-block">
 									<div class="d-flex align-items-center p-2">
 										<span class="avatar avatar-md me-2 online avatar-rounded">
-											<img src="assets/img/profiles/avatar-27.jpg" alt="img">
+											<img src="asset/assets/img/profiles/avatar-27.jpg" alt="img">
 										</span>
 										<div>
 											<h6 class="">Kevin Larry</h6>
@@ -366,7 +366,7 @@
 					<ul>
 						<li>
 							<a href="javascript:void(0);" class="d-flex align-items-center border bg-white rounded p-2 mb-4">
-								<img src="assets/img/icons/global-img.svg" class="avatar avatar-md img-fluid rounded" alt="Profile">
+								<img src="asset/assets/img/icons/global-img.svg" class="avatar avatar-md img-fluid rounded" alt="Profile">
 								<span class="text-dark ms-2 fw-normal">Global International</span>
 							</a>
 						</li>
@@ -1229,7 +1229,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-01.jpg"
+														src="asset/assets/img/students/student-01.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Janet</a>
@@ -1314,7 +1314,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-02.jpg"
+														src="asset/assets/img/students/student-02.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Joann</a></p>
@@ -1398,7 +1398,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-03.jpg"
+														src="asset/assets/img/students/student-03.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a
@@ -1483,7 +1483,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-04.jpg"
+														src="asset/assets/img/students/student-04.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Gifford</a>
@@ -1568,7 +1568,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-05.jpg"
+														src="asset/assets/img/students/student-05.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Lisa</a>
@@ -1653,7 +1653,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-06.jpg"
+														src="asset/assets/img/students/student-06.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Ralph</a>
@@ -1738,7 +1738,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-07.jpg"
+														src="asset/assets/img/students/student-07.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Julie</a>
@@ -1823,7 +1823,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-08.jpg"
+														src="asset/assets/img/students/student-08.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Ryan</a>
@@ -1908,7 +1908,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-09.jpg"
+														src="asset/assets/img/students/student-09.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Susan</a>
@@ -1993,7 +1993,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-10.jpg"
+														src="asset/assets/img/students/student-10.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a href="student-details.html">Richard</a>
@@ -2078,7 +2078,7 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<a href="student-details.html" class="avatar avatar-md"><img
-														src="assets/img/students/student-11.jpg"
+														src="asset/assets/img/students/student-11.jpg"
 														class="img-fluid rounded-circle" alt="img"></a>
 												<div class="ms-2">
 													<p class="text-dark mb-0"><a
@@ -2176,7 +2176,7 @@
 					</div>		
 					<div class="modal-body">		
 						<div class="student-detail-info">
-							<span class="student-img"><img src="assets/img/students/student-01.jpg" alt="Img"></span>
+							<span class="student-img"><img src="asset/assets/img/students/student-01.jpg" alt="Img"></span>
 							<div class="name-info">
 								<h6>Janet <span>III, A</span></h6>
 							</div>
@@ -2256,7 +2256,7 @@
 									<div class="col-lg-3 col-md-6">
 										<div class="d-flex align-items-center mb-3">
 											<a href="student-details.html" class="avatar avatar-md me-2">
-												<img src="assets/img/students/student-01.jpg" alt="img">
+												<img src="asset/assets/img/students/student-01.jpg" alt="img">
 											</a>
 											<a href="student-details.html" class="d-flex flex-column"><span class="text-dark">Janet</span>III, A</a>
 										</div>
@@ -2373,33 +2373,33 @@
 	<!-- /Main Wrapper -->
 
 	<!-- jQuery -->
-	<script src="assets/js/jquery-3.7.1.min.js"></script>
+	<script src="asset/assets/js/jquery-3.7.1.min.js"></script>
 
 	<!-- Bootstrap Core JS -->
-	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script src="asset/assets/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Daterangepikcer JS -->
-	<script src="assets/js/moment.js"></script>
-	<script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
+	<script src="asset/assets/js/moment.js"></script>
+	<script src="asset/assets/plugins/daterangepicker/daterangepicker.js"></script>
 
 	<!-- Feather Icon JS -->
-	<script src="assets/js/feather.min.js"></script>
+	<script src="asset/assets/js/feather.min.js"></script>
 
 	<!-- Slimscroll JS -->
-	<script src="assets/js/jquery.slimscroll.min.js"></script>
+	<script src="asset/assets/js/jquery.slimscroll.min.js"></script>
 
 	<!-- Datatable JS -->
-	<script src="assets/js/jquery.dataTables.min.js"></script>
-	<script src="assets/js/dataTables.bootstrap5.min.js"></script>
+	<script src="asset/assets/js/jquery.dataTables.min.js"></script>
+	<script src="asset/assets/js/dataTables.bootstrap5.min.js"></script>
 
 	<!-- Select2 JS -->
-	<script src="assets/plugins/select2/js/select2.min.js"></script>
+	<script src="asset/assets/plugins/select2/js/select2.min.js"></script>
 
 	<!-- Datetimepicker JS -->
-	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="asset/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 	<!-- Custom JS -->
-	<script src="assets/js/script.js"></script>
+	<script src="asset/assets/js/script.js"></script>
 
 </body>
 

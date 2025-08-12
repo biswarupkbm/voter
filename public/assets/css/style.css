@@ -8114,6 +8114,14 @@ a.theme-btn {
      margin:10px auto;
       
     }
+.navigation {
+    display: flex;
+    justify-content: flex-start !important; /* Align to left */
+    margin-right: 700px; /* Optional spacing */
+}
+.navigation li {
+    margin-right: 10px; /* Optional spacing */
+}
 
 .form-back-drop {
   position: fixed;

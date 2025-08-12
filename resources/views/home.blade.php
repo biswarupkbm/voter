@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>voter</title>
+    <title>voters</title>
     <!-- Favicon Icon -->
     <link rel="shortcut icon" href="assets/images/voter/logo/logo.png" type="image/x-icon">
     <!-- Google Fonts -->
@@ -225,12 +225,15 @@
 
             <!-- Column 1: Info -->
             <div class="col-md-3 mb-4">
-                <h5 class="border-bottom pb-2">Election Commission of India</h5>
-                <p>
-                    The Election Commission of India is an autonomous constitutional authority 
-                    responsible for administering election processes in India. 
-                </p>
-                <p><i class="bi bi-geo-alt"></i> Nirvachan Sadan, Ashoka Road, New Delhi 110001</p>
+<h5 class="border-bottom pb-2">Get Registered, Log In & Update And Check</h5>
+               <p>
+    Register as a voter and participate in shaping the future of your nation. 
+    Our online voter registration system makes it easy to create your profile, 
+    log in securely, and track the status of your voter card application. 
+    Ensure your details are up to date and be ready to cast your vote with confidence.
+</p>
+
+<p><i class="bi bi-person-badge"></i> Sarpanch - Voter Registration Administrator</p>
                 <div>
                     <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
                     <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
@@ -241,31 +244,24 @@
 
             <!-- Column 2: Election Image -->
             <div class="col-md-3 mb-4 text-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/ECI_Logo.svg/1200px-ECI_Logo.svg.png" alt="Election" class="img-fluid" style="max-height:150px;">
-                <p class="mt-2">GENERAL ELECTION 2024</p>
-                <a href="#" class="text-white">elections24.eci.gov.in</a>
+          
             </div>
 
             <!-- Column 3: Quick Links -->
             <div class="col-md-3 mb-4">
                 <h5 class="border-bottom pb-2">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">About ECI</a></li>
-                    <li><a href="#" class="text-white">Directory</a></li>
-                    <li><a href="#" class="text-white">Contact Us</a></li>
-                    <li><a href="#" class="text-white">Apply for Voter Card</a></li>
-                    <li><a href="#" class="text-white">RTI Online</a></li>
+                    <li><a href="#" class="text-white">home</a></li>
+                    <li><a href="#" class="text-white">Contact</a></li>
+                    <li><a href="#" class="text-white">sing in</a></li>
                 </ul>
             </div>
 
             <!-- Column 4: Apps -->
             <div class="col-md-3 mb-4">
-                <h5 class="border-bottom pb-2">ECI Apps Links</h5>
+                <h5 class=""></h5>
                 <div class="d-flex flex-wrap gap-2">
-                    <img src="https://via.placeholder.com/50" class="rounded" alt="App 1">
-                    <img src="https://via.placeholder.com/50" class="rounded" alt="App 2">
-                    <img src="https://via.placeholder.com/50" class="rounded" alt="App 3">
-                    <img src="https://via.placeholder.com/50" class="rounded" alt="App 4">
+                  
                 </div>
             </div>
 
@@ -273,7 +269,7 @@
 
         <hr class="border-light">
         <div class="text-center">
-            &copy; Copyright Election Commission of India 2025
+            &copy; Copyright voters 2025. All rights reserved.
         </div>
     </div>
 </footer>

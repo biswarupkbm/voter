@@ -21,6 +21,9 @@ Route::get('/members', [MemberController::class, 'index'])->name('members.index'
 
 
 Route::get('/student', function () {
-    return view('students');
+    return view('admin.students');
+});
+Route::get('/index', function () {
+    return view('admin.index');
 });
 
