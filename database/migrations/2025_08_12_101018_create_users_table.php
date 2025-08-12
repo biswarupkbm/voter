@@ -18,6 +18,7 @@ return new class extends Migration
           $table->string('contact')->nullable();
           $table->string('password');
           $table->string('role')->default('user'); // Default role
+          $table->boolean('is_verified')->default(false);
           $table->timestamps();
         });
     }
