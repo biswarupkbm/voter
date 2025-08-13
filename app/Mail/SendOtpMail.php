@@ -11,17 +11,19 @@ class SendOtpMail extends Mailable
     use Queueable, SerializesModels;
 
     public $otp;
+    public $name;
 
-    public function __construct($otp)
+    // Constructor
+    public function __construct($otp, $name)
     {
         $this->otp = $otp;
+        $this->name = $name;
     }
 
+    // Build the email
     public function build()
     {
-        return $this->subject('Your OTP Code')
-                    ->view('emails.otp')
-                    ->with(['otp' => $this->otp]);
+        return $this->subject('Your OTP Verification Code')
+                    ->view('emails.send-otp'); // Blade view for email
     }
 }
-

@@ -6,7 +6,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<<<<<<< HEAD
 
 	<div id="global-loader">
 		<div class="page-loader"></div>
@@ -140,27 +139,5 @@
 	<!-- Custom JS -->
 	<script src="asset/assets/js/script.js"></script>
 
-=======
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="#">Admin Dashboard</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button class="btn btn-danger btn-sm" type="submit">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container mt-5">
-    <h1>Welcome, Admin!</h1>
-    <p>This is your admin dashboard.</p>
-</div>
->>>>>>> e99c4fa63a2576c88ac02be892b311011653ba9e
 </body>
 </html>

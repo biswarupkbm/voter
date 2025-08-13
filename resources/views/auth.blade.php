@@ -45,7 +45,7 @@
             align-items: center;
             text-align: center;
         }
-        input, select {
+        input {
             background-color: #eee;
             border: none;
             padding: 12px 15px;
@@ -70,25 +70,10 @@
             height: 100%;
             transition: all 0.6s ease-in-out;
         }
-        .sign-in-container {
-            left: 0;
-            width: 50%;
-            z-index: 2;
-        }
-        .sign-up-container {
-            left: 0;
-            width: 50%;
-            opacity: 0;
-            z-index: 1;
-        }
-        .container.right-panel-active .sign-in-container {
-            transform: translateX(100%);
-        }
-        .container.right-panel-active .sign-up-container {
-            transform: translateX(100%);
-            opacity: 1;
-            z-index: 5;
-        }
+        .sign-in-container { left: 0; width: 50%; z-index: 2; }
+        .sign-up-container { left: 0; width: 50%; opacity: 0; z-index: 1; }
+        .container.right-panel-active .sign-in-container { transform: translateX(100%); }
+        .container.right-panel-active .sign-up-container { transform: translateX(100%); opacity: 1; z-index: 5; }
         .overlay-container {
             position: absolute;
             top: 0;
@@ -101,8 +86,6 @@
         }
         .overlay {
             background: linear-gradient(to right, #5c6bc0, #512da8);
-            background-repeat: no-repeat;
-            background-size: cover;
             color: #fff;
             position: relative;
             left: -100%;
@@ -153,10 +136,6 @@
             <input type="text" name="name" placeholder="Full Name" value="{{ old('name') }}" required>
             <input type="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
             <input type="text" name="contact" placeholder="Contact Number" value="{{ old('contact') }}" required>
-            <select name="otp_method" required>
-                <option value="">Select OTP Method</option>
-                <option value="email" {{ old('otp_method') == 'email' ? 'selected' : '' }}>Email</option>
-            </select>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Sign Up</button>
         </form>
@@ -204,9 +183,9 @@ Swal.fire({
 @endif
 
 <script>
-    const container = document.getElementById('container');
-    document.getElementById('signUp').addEventListener('click', () => container.classList.add("right-panel-active"));
-    document.getElementById('signIn').addEventListener('click', () => container.classList.remove("right-panel-active"));
+const container = document.getElementById('container');
+document.getElementById('signUp').addEventListener('click', () => container.classList.add("right-panel-active"));
+document.getElementById('signIn').addEventListener('click', () => container.classList.remove("right-panel-active"));
 </script>
 
 </body>
