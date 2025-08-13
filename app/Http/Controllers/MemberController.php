@@ -125,4 +125,5 @@ class MemberController extends Controller
 
         return redirect()->back()->with('success', 'Member deleted successfully!');
     }
+    
 }

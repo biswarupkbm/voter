@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\SendOtpMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendOtpMail;
 
 class AuthController extends Controller
 {
@@ -42,6 +42,7 @@ class AuthController extends Controller
 
         // Send OTP email
         Mail::to($request->email)->send(new SendOtpMail($otp, $request->name));
+
 
         return redirect()->route('verify.otp.form')
             ->with('success', 'OTP sent to your email')
@@ -115,13 +116,6 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Invalid email or password'])->with('form', 'login');
     }
 
-    // Logout
-    public function logout()
-    {
-        session()->flush();
-        return redirect()->route('login.form');
-    }
-
     // Optional: Admin dashboard (session-based check)
     public function adminDashboard()
     {
@@ -135,8 +129,15 @@ class AuthController extends Controller
     public function userDashboard()
     {
         if (session('user_role') === 'user') {
-            return view('dashboard.user');
+            return view('admin.index');
         }
         abort(403, 'Unauthorized access');
     }
+
+    public function logout()
+    {
+        session()->flush();
+        return redirect()->route('auth.page')->with('success', 'Logged out successfully.');
+    }
+
 }

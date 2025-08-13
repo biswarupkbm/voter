@@ -4,7 +4,7 @@
     <title>Add Voter</title>
     <style>
         body {
-            background: linear-gradient(135deg, #44f0e2ff, #e5b816ff);
+            background: linear-gradient(135deg, #51fff1ff, #e5b816ff);
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -18,7 +18,7 @@
 
         .card {
             
-            background: orange;
+            background: #ffb74cff;
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
@@ -47,7 +47,7 @@
             margin-bottom: 6px;
             font-weight: 500;
             font-size: 14px;
-            color: #ffff;
+            color: rgba(0, 0, 0, 1);
         }
 
         input[type="text"],
@@ -56,14 +56,14 @@
             padding: 10px;
             border-radius: 12px;
             border: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: #fff;
             color: #fff;
             font-size: 14px;
         }
 
         input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: #fff;
             box-shadow: 0 0 0 2px #c25785ff;
         }
 
@@ -79,7 +79,7 @@
 
         .radio-group label {
             font-weight: normal;
-            color: #e0d7f9;
+            color: #070607ff;
         }
 
         input[type="radio"] {
@@ -87,7 +87,7 @@
         }
 
         .btn-submit {
-            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+            background: linear-gradient(90deg, #e22d84ff, #4a00e0);
             border: none;
             padding: 12px;
             font-weight: bold;
@@ -101,7 +101,7 @@
 
         .btn-submit:hover {
             transform: scale(1.05);
-            background: linear-gradient(90deg, #4a00e0, #8e2de2);
+            background: linear-gradient(90deg, #e0005aff, #2d9ae2ff);
         }
 
         .alert {
