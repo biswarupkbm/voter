@@ -5,13 +5,20 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 
 Route::get('/', function () {
-  return view('home');
+    return view('home');
 });
 
 // Auth routes
 Route::get('/auth', function () {
-  return view('auth');
+    return view('auth');
 })->name('login.page');
+
+Route::get('/student', function () {
+    return view('admin.students');
+});
+// Route::get('/index', function () {
+//     return view('admin.index');
+// });
 
 Route::get('/register', [AuthController::class, 'showForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
@@ -26,20 +33,20 @@ Route::middleware('role:admin')->get('/admin/dashboard', [AuthController::class,
 Route::middleware('role:user')->get('/user/dashboard', [AuthController::class, 'userDashboard'])->name('user.dashboard');
 
 // Admin Dashboard (session-based role check in route closure)
-Route::get('/admin/dashboard', function () {
+Route::get('/index', function () {
     if (session('user_role') === 'admin') {
         return view('admin.index');
     }
     abort(403, 'Unauthorized access');
-})->name('admin.dashboard');
+})->name('admin.index');
 
 // User Dashboard (session-based role check in route closure)
-Route::get('/user/dashboard', function () {
+Route::get('/index', function () {
   if (session('user_role') === 'user') {
         return view('admin.index');
     }
     abort(403, 'Unauthorized access');
-})->name('user.dashboard');
+})->name('admin.index');
     
 
 // OTP verification routes
@@ -52,50 +59,11 @@ Route::get('/members', [MemberController::class, 'index'])->name('members.index'
 
 
 
-
-
-
-Route::view('/auth', 'auth')->name('auth');
-Route::post('/register', [AuthController::class, 'registerSubmit'])->name('register.submit');
-Route::post('/login', [AuthController::class, 'loginSubmit'])->name('login.submit');
-Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-
-
-
-// OTP verification routes
-Route::get('/verify-otp', [AuthController::class, 'showVerifyOtpForm'])->name('verify.otp.form');
-Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.otp');
-
-
-Route::get('/dashboard', function () {
-    if (session('role') === 'admin' || session('role') === 'user') {
-        return view('admin.index');
-    };
-})->name('index');
-
-Route::get('/login', function () {
-    return view('contact');
-});
-
-
-Route::get('/create', [MemberController::class, 'create'])->name('members.create');
-Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+Route::resource('members', MemberController::class);
 Route::get('/members', [MemberController::class, 'index'])->name('members.index');
-
-
-Route::get('/student', function () {
-    return view('admin.students');
-});
-Route::get('/index', function () {
-    return view('admin.index');
-});
-
-
-Route::get('/members', [MemberController::class, 'create'])->name('members.create');
-Route::get('/members', [MemberController::class, 'edit'])->name('members.edit');
-Route::put('/members', [MemberController::class, 'update'])->name('members.update');
-Route::delete('/members', [MemberController::class, 'destroy'])->name('members.destroy');
+Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+Route::post('/members', [MemberController::class, 'store'])->name('members.store');
 Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
 Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
 Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+

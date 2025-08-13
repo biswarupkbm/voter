@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<meta name="description" content="Preskool - Bootstrap Admin Template">
+	<meta name="keywords" content="admin, estimates, bootstrap, business, html5, responsive, Projects">
+	<meta name="author" content="Dreams technologies - Bootstrap Admin Template">
+	<meta name="robots" content="noindex, nofollow">
+	<title>Preskool Admin Template</title>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="asset/assets/img/favicon.png">
+
+	<!-- Theme Script js -->
+	<script src="asset/assets/js/theme-script.js"></script>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="asset/assets/css/bootstrap.min.css">
+
+	<!-- Feather CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/icons/feather/feather.css">
+
+	<!-- Tabler Icon CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/tabler-icons/tabler-icons.css">
+
+	<!-- Daterangepikcer CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/daterangepicker/daterangepicker.css">
+
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/select2/css/select2.min.css">
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="asset/assets/plugins/fontawesome/css/all.min.css">
+
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="asset/assets/css/bootstrap-datetimepicker.min.css">
+
+	<!-- Owl Carousel CSS -->
+	<link rel="stylesheet" href="asset/assets/plugins/owlcarousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="asset/assets/plugins/owlcarousel/owl.theme.default.min.css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="asset/assets/css/style.css">
+
 </head>
+
 <body>
 
 	<div id="global-loader">
@@ -140,4 +182,5 @@
 	<script src="asset/assets/js/script.js"></script>
 
 </body>
+
 </html>

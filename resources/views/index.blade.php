@@ -6,16 +6,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        .highlight {
-            background-color: yellow;
-            font-weight: bold;
-        }
-        .action-btns i {
-            font-size: 1.2rem;
-        }
-        .action-btns a, .action-btns button {
-            padding: 4px 8px;
-        }
+        .highlight { background-color: yellow; font-weight: bold; }
+        .action-btns i { font-size: 1.2rem; }
     </style>
 </head>
 <body class="p-4 bg-light">
@@ -23,7 +15,6 @@
 <div class="container mt-4">
     <h2 class="mb-4">Members List</h2>
 
-    {{-- Search Bar --}}
     <div class="mb-3">
         <input type="text" id="searchInput" class="form-control" placeholder="Search members...">
     </div>
@@ -72,13 +63,20 @@
                         @endif
                     </td>
                     <td class="action-btns">
-                        {{-- Edit --}}
-                        <a href="{{ route('members.index', $member->id) }}" class="btn btn-warning btn-sm">
+                        <button type="button" class="btn btn-warning btn-sm edit-btn">
                             <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        {{-- Delete --}}
-                        <form action="{{ route('members.store', $member->id) }}" method="POST" style="display:inline-block;">
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm cancel-btn" style="display:none;">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                        <form action="{{ route('members.update', $member->id) }}" method="POST" class="save-form d-inline" style="display:none;">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-check-lg"></i>
+                            </button>
+                        </form>
+                        <form action="{{ route('members.destroy', $member->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">
@@ -92,35 +90,64 @@
     </table>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    const fields = ['name','father_name','voter_id','gender','village','post','panchayath','mandal','state'];
+
+    document.querySelectorAll(".edit-btn").forEach(editBtn => {
+        editBtn.addEventListener("click", function () {
+            let row = this.closest("tr");
+            let cells = row.querySelectorAll("td");
+            let cancelBtn = row.querySelector(".cancel-btn");
+            let saveForm = row.querySelector(".save-form");
+
+            row.dataset.original = JSON.stringify(Array.from(cells).map(cell => cell.innerHTML));
+
+            fields.forEach((field, index) => {
+                let text = cells[index+1].textContent.trim();
+                cells[index+1].innerHTML = `<input type="text" class="form-control form-control-sm" name="${field}" value="${text}">`;
+            });
+
+            this.style.display = "none";
+            cancelBtn.style.display = "inline-block";
+            saveForm.style.display = "inline-block";
+        });
+    });
+
+    document.querySelectorAll(".cancel-btn").forEach(cancelBtn => {
+        cancelBtn.addEventListener("click", function () {
+            let row = this.closest("tr");
+            let original = JSON.parse(row.dataset.original);
+            let cells = row.querySelectorAll("td");
+            original.forEach((html, i) => {
+                cells[i].innerHTML = html;
+            });
+        });
+    });
+
+    document.querySelectorAll(".save-form").forEach(saveForm => {
+        saveForm.addEventListener("submit", function () {
+            let row = this.closest("tr");
+            let inputs = row.querySelectorAll("input.form-control");
+            inputs.forEach(input => {
+                let hidden = document.createElement("input");
+                hidden.type = "hidden";
+                hidden.name = input.name;
+                hidden.value = input.value;
+                this.appendChild(hidden);
+            });
+        });
+    });
+
     document.getElementById("searchInput").addEventListener("keyup", function () {
         let filter = this.value.toLowerCase();
         let rows = document.querySelectorAll("#membersTable tbody tr");
 
         rows.forEach(row => {
             let text = row.textContent.toLowerCase();
-            if (text.includes(filter)) {
-                row.style.display = "";
-                highlightText(row, filter);
-            } else {
-                row.style.display = "none";
-            }
+            row.style.display = text.includes(filter) ? "" : "none";
         });
     });
-
-    function highlightText(row, filter) {
-        let cells = row.querySelectorAll("td");
-        cells.forEach(cell => {
-            let cellText = cell.textContent;
-            if (filter && cellText.toLowerCase().includes(filter)) {
-                let regex = new RegExp(`(${filter})`, "gi");
-                cell.innerHTML = cellText.replace(regex, `<span class="highlight">$1</span>`);
-            } else {
-                cell.innerHTML = cellText; // Remove previous highlights
-            }
-        });
-    }
 </script>
+
 </body>
 </html>
