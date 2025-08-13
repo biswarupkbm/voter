@@ -57,7 +57,7 @@
             border-radius: 12px;
             border: none;
             background: #fff;
-            color: #fff;
+            color: #181010ff;
             font-size: 14px;
         }
 

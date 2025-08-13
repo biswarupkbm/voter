@@ -12,6 +12,10 @@ class MemberController extends Controller
         $members = Member::latest()->get();
         return view('members.index', compact('members'));
     }
+public function create()
+{
+    return view('create'); // Make sure you have this blade file
+}
 
     public function store(Request $request)
     {
