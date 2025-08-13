@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Members List</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .action-col {
+            width: 150px;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .action-col .btn {
+            margin-right: 5px;
+        }
+        td input[readonly] {
+            border: none;
+            background: transparent;
+            padding-left: 0;
+        }
+        td img, .fa-eye {
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body class="bg-light p-4">
+<body class="bg-light">
 
 <div class="container mt-4">
-    <h2 class="mb-4">Members List</h2>
+    <h2 class="mb-3">Members List</h2>
 
-    {{-- Success Message --}}
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <table class="table table-bordered table-striped align-middle">
+    <table class="table table-bordered align-middle">
         <thead class="table-dark">
             <tr>
                 <th>#</th>
@@ -30,98 +45,150 @@
                 <th>Mandal</th>
                 <th>State</th>
                 <th>Voter Card</th>
-                <th width="150">Actions</th>
+                <th class="action-col">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($members as $index => $member)
-                <tr data-id="{{ $member->id }}">
-                    <td>{{ $index + 1 }}</td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->name }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->father_name }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->voter_id }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->gender }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->village }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->post }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->panchayath }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->mandal }}" readonly></td>
-                    <td><input type="text" class="form-control-plaintext" value="{{ $member->state }}" readonly></td>
-                    <td>
-                        @if($member->voter_card_url)
-                            <a href="{{ $member->voter_card_url }}" class="btn btn-info btn-sm" target="_blank">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        @else
-                            <span class="text-muted">No File</span>
-                        @endif
-                    </td>
-                    <td>
-                        <button class="btn btn-warning btn-sm edit-btn"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-success btn-sm save-btn d-none"><i class="fa fa-check"></i></button>
-                        <form action="{{ route('members.destroy', $member->id) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this member?')">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
+            <tr data-id="{{ $member->id }}">
+                <td>{{ $index+1 }}</td>
+                <td><input type="text" class="form-control field" name="name" value="{{ $member->name }}" readonly></td>
+                <td><input type="text" class="form-control field" name="father_name" value="{{ $member->father_name }}" readonly></td>
+                <td><input type="text" class="form-control field" name="voter_id" value="{{ $member->voter_id }}" readonly></td>
+                <td><input type="text" class="form-control field" name="gender" value="{{ $member->gender }}" readonly></td>
+                <td><input type="text" class="form-control field" name="village" value="{{ $member->village }}" readonly></td>
+                <td><input type="text" class="form-control field" name="post" value="{{ $member->post }}" readonly></td>
+                <td><input type="text" class="form-control field" name="panchayath" value="{{ $member->panchayath }}" readonly></td>
+                <td><input type="text" class="form-control field" name="mandal" value="{{ $member->mandal }}" readonly></td>
+                <td><input type="text" class="form-control field" name="state" value="{{ $member->state }}" readonly></td>
+                <td class="text-center">
+                    @if($member->voter_card)
+                        <i class="fa fa-eye text-info fs-5" onclick="viewVoterCard('{{ asset('storage/' . $member->voter_card) }}')"></i>
+                    @else
+                        <span class="text-muted">No Image</span>
+                    @endif
+                </td>
+                <td class="action-col">
+                    <button class="btn btn-success btn-sm save-btn d-none"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-primary btn-sm edit-btn"><i class="fa fa-edit"></i></button>
+                    <button class="btn btn-danger btn-sm delete-btn"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Handle Edit
-    document.querySelectorAll('.edit-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            let row = btn.closest('tr');
-            row.querySelectorAll('input').forEach(input => {
-                input.removeAttribute('readonly');
-                input.classList.add('form-control');
-            });
-            btn.classList.add('d-none');
-            row.querySelector('.save-btn').classList.remove('d-none');
+$(document).ready(function () {
+    let originalValues = {};
+
+    // Edit
+    $(document).on('click', '.edit-btn', function () {
+        let row = $(this).closest('tr');
+        row.find('.field').prop('readonly', false);
+        $(this).addClass('d-none');
+        row.find('.save-btn').removeClass('d-none');
+
+        let id = row.data('id');
+        originalValues[id] = {};
+        row.find('.field').each(function () {
+            originalValues[id][$(this).attr('name')] = $(this).val();
         });
     });
 
-    // Handle Save
-    document.querySelectorAll('.save-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            let row = btn.closest('tr');
-            let id = row.dataset.id;
-            let inputs = row.querySelectorAll('input');
-            let data = {};
-            let fields = ['name','father_name','voter_id','gender','village','post','panchayath','mandal','state'];
+    // Save
+    $(document).on('click', '.save-btn', function () {
+        let row = $(this).closest('tr');
+        let id = row.data('id');
+        let formData = {};
+        let hasChanges = false;
 
-            inputs.forEach((input, index) => {
-                data[fields[index]] = input.value;
-            });
+        row.find('.field').each(function () {
+            let name = $(this).attr('name');
+            let value = $(this).val();
+            formData[name] = value;
+            if (value !== originalValues[id][name]) {
+                hasChanges = true;
+            }
+        });
 
-            fetch(`/members/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            .then(response => {
-                alert(response.message || 'Updated successfully!');
-                inputs.forEach(input => {
-                    input.setAttribute('readonly', true);
-                    input.classList.remove('form-control');
+        if (!hasChanges) {
+            row.find('.field').prop('readonly', true);
+            row.find('.save-btn').addClass('d-none');
+            row.find('.edit-btn').removeClass('d-none');
+            return;
+        }
+
+        $.ajax({
+            url: '/members/' + id,
+            type: 'PUT',
+            data: formData,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated!',
+                        text: 'Member details updated successfully.',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+                row.find('.field').prop('readonly', true);
+                row.find('.save-btn').addClass('d-none');
+                row.find('.edit-btn').removeClass('d-none');
+                originalValues[id] = { ...formData };
+            }
+        });
+    });
+
+    // Delete
+    $(document).on('click', '.delete-btn', function () {
+        let row = $(this).closest('tr');
+        let id = row.data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This member will be deleted.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/members/' + id,
+                    type: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Member removed successfully.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            row.remove();
+                        }
+                    }
                 });
-                btn.classList.add('d-none');
-                row.querySelector('.edit-btn').classList.remove('d-none');
-            })
-            .catch(err => console.error(err));
+            }
         });
     });
 });
+
+// Show voter card image in SweetAlert
+function viewVoterCard(imageUrl) {
+    Swal.fire({
+        title: 'Voter Card',
+        imageUrl: imageUrl,
+        imageAlt: 'Voter Card',
+        confirmButtonText: 'Close'
+    });
+}
 </script>
 
 </body>

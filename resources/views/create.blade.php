@@ -123,9 +123,10 @@
                 <div class="alert">{{ session('success') }}</div>
             @endif
 
+            
             <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
+                
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" name="name" required>
@@ -170,7 +171,7 @@
                     <input type="text" name="panchayath" required>
                     @error('panchayath') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
-
+                
                 <div class="form-group">
                     <label>Mandal</label>
                     <input type="text" name="mandal" required>
@@ -185,7 +186,7 @@
 
                 <div class="form-group">
                     <label>Upload Voter ID Card</label>
-                    <input type="file" name="voter_card" accept="image/*,application/pdf" required>
+                    <input type="file" name="voter_card" accept="image/*" required>
                     @error('voter_card') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
