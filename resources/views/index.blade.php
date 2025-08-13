@@ -63,7 +63,6 @@
                     <td>{{ $member->mandal }}</td>
                     <td>{{ $member->state }}</td>
                     <td>
-                        
                         @if($member->voter_card)
                             <a href="{{ asset('storage/' . $member->voter_card) }}" target="_blank" class="btn btn-info btn-sm">
                                 <i class="bi bi-eye"></i>
@@ -76,11 +75,6 @@
                         {{-- Edit --}}
                         <a href="{{ route('members.index', $member->id) }}" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        {{-- Update --}}
-                        <a href="{{ route('members.index', $member->id) }}" class="btn btn-success btn-sm">
-                            <i class="bi bi-arrow-clockwise"></i>
                         </a>
 
                         {{-- Delete --}}

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class MemberController extends Controller
 {
     /**
-     * Show all members.
+     * Display a listing of all members.
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Store a new member in the database.
+     * Store a newly created member in the database.
      */
     public function store(Request $request)
     {
@@ -39,7 +39,7 @@ class MemberController extends Controller
             'panchayath'  => 'required|string|max:255',
             'mandal'      => 'required|string|max:255',
             'state'       => 'required|string|max:255',
-            'voter_card'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048'
+            'voter_card'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         // Handle file upload
@@ -48,6 +48,7 @@ class MemberController extends Controller
             $filePath = $request->file('voter_card')->store('voter_cards', 'public');
         }
 
+        // Create member
         Member::create([
             'name'        => $request->name,
             'father_name' => $request->father_name,
@@ -58,14 +59,14 @@ class MemberController extends Controller
             'panchayath'  => $request->panchayath,
             'mandal'      => $request->mandal,
             'state'       => $request->state,
-            'voter_card'  => $filePath
+            'voter_card'  => $filePath,
         ]);
 
         return redirect()->back()->with('success', 'Member added successfully!');
     }
 
     /**
-     * Show the form to edit a member.
+     * Show the form to edit an existing member.
      */
     public function edit($id)
     {
@@ -90,15 +91,16 @@ class MemberController extends Controller
             'panchayath'  => 'required|string|max:255',
             'mandal'      => 'required|string|max:255',
             'state'       => 'required|string|max:255',
-            'voter_card'  => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048'
+            'voter_card'  => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Handle file upload if new file provided
+        // Update voter card if a new file is uploaded
         if ($request->hasFile('voter_card')) {
             $filePath = $request->file('voter_card')->store('voter_cards', 'public');
             $member->voter_card = $filePath;
         }
 
+        // Update member
         $member->update([
             'name'        => $request->name,
             'father_name' => $request->father_name,
@@ -109,14 +111,14 @@ class MemberController extends Controller
             'panchayath'  => $request->panchayath,
             'mandal'      => $request->mandal,
             'state'       => $request->state,
-            'voter_card'  => $member->voter_card
+            'voter_card'  => $member->voter_card,
         ]);
 
         return redirect()->back()->with('success', 'Member updated successfully!');
     }
 
     /**
-     * Delete a member from the database.
+     * Remove a member from the database.
      */
     public function destroy($id)
     {
@@ -125,5 +127,4 @@ class MemberController extends Controller
 
         return redirect()->back()->with('success', 'Member deleted successfully!');
     }
-    
 }
