@@ -2,107 +2,141 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
 
 class AuthController extends Controller
 {
-    // Register & Send OTP
-    public function registerSubmit(Request $request)
+    // Show combined Sign Up / Sign In form
+    public function showForm()
+    {
+        return view('auth');
+    }
+
+    // Handle registration and send email OTP
+    public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'contact' => 'required|string|max:20',
+            'contact' => 'required|string',
             'password' => 'required|min:6',
-            'otp_method' => 'required|in:email'
         ]);
 
-        // Create user but mark as unverified
-        $user = User::create([
+        $otp = rand(100000, 999999);
+
+        // Store user data and OTP in session
+        Session::put('otp_user', [
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
-            'password' => Hash::make($request->password),
-            'role' => 'user', // Default role
-            'email_verified_at' => null
-        ]);
-
-        // Generate OTP
-        $otp = rand(100000, 999999);
-
-        // Store OTP & user ID in session
-        session([
+            'role' => 'user', // default role
+            'password' => bcrypt($request->password),
+            'plain_password' => $request->password,
             'otp' => $otp,
-            'temp_user_id' => $user->id
         ]);
 
-        // Send OTP via email
-        if ($request->otp_method === 'email') {
-            Mail::to($user->email)->send(new SendOtpMail($otp));
-        }
+        // Send OTP email
+        Mail::to($request->email)->send(new SendOtpMail($otp, $request->name));
 
-        // Redirect to OTP verification form
-        return redirect()->route('verify.otp.form')->with('success', 'OTP sent to your email!');
+        return redirect()->route('verify.otp.form')
+            ->with('success', 'OTP sent to your email')
+            ->with('form', 'register');
     }
 
-    // Show OTP Verification Form
-    public function showVerifyOtpForm()
+    // Show OTP verification form
+    public function showOtpForm()
     {
-        return view('verify_otp');
+        return view('verify-otp');
     }
 
-    // Verify OTP
+    // Verify OTP and create user account
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'otp' => 'required|numeric'
+            'otp' => 'required|digits:6',
         ]);
 
-        if ($request->otp == session('otp')) {
-            // Mark user as verified
-            $user = User::find(session('temp_user_id'));
-            if ($user) {
-                $user->email_verified_at = now();
-                $user->save();
-            }
+        $data = Session::get('otp_user');
 
-            // Clear OTP from session
-            session()->forget(['otp', 'temp_user_id']);
-
-            return redirect()->route('login')->with('success', 'Email verified successfully! You can now log in.');
-        } else {
-            return back()->withErrors(['otp' => 'Invalid OTP, please try again.']);
+        if (!$data || $request->otp != $data['otp']) {
+            return back()->with('error', 'Invalid or expired OTP.')->with('form', 'register');
         }
+
+        // Create user account
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'contact' => $data['contact'],
+            'role' => $data['role'],
+            'password' => $data['password'], // already hashed
+        ]);
+
+        Session::forget('otp_user');
+
+        return redirect()->route('login.form')
+            ->with('success', 'Registration complete! You may now log in.');
     }
 
-    // Login
-    public function loginSubmit(Request $request)
+    // Show login form
+    public function showLogin()
+    {
+        return view('auth');
+    }
+
+    // Handle login
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return redirect()->back()->withErrors(['Invalid email or password'])->with('form', 'login');
+        if ($user && Hash::check($request->password, $user->password)) {
+            session([
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'user_role' => $user->role,
+            ]);
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('user.dashboard');
+            }
         }
 
-        // Block login if email is not verified
-        if (is_null($user->email_verified_at)) {
-            return redirect()->back()->withErrors(['Your email is not verified!'])->with('form', 'login');
+        return back()->withErrors(['email' => 'Invalid email or password'])->with('form', 'login');
+    }
+
+    // Logout
+    public function logout()
+    {
+        session()->flush();
+        return redirect()->route('login.form');
+    }
+
+    // Optional: Admin dashboard (session-based check)
+    public function adminDashboard()
+    {
+        if (session('user_role') === 'admin') {
+            return view('admin.index');
         }
+        abort(403, 'Unauthorized access');
+    }
 
-        session([
-            'user_id' => $user->id,
-            'role' => $user->role
-        ]);
-
-        return redirect()->route('index');
+    // Optional: User dashboard (session-based check)
+    public function userDashboard()
+    {
+        if (session('user_role') === 'user') {
+            return view('dashboard.user');
+        }
+        abort(403, 'Unauthorized access');
     }
 }
