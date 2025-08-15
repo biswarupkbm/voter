@@ -108,7 +108,7 @@
                   <div class="navbar-collapse collapse clearfix">
                     <ul class="navigation clearfix">
                       <li class=""><a href="/">Home</a></li>
-                      <li class=""><a href="#">Contact Us</a>
+                      <li class=""><a href="contact">Contact Us</a>
                     </ul>
                   </div>
 
@@ -154,10 +154,10 @@
         <!-- The slideshow/carousel -->
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="assets/images/voter/banner/login.png" alt="Los Angeles" class="d-block" style="width:100%">
+            <img src="assets/images/voter/banner/check.png" alt="Los Angeles" class="d-block" style="width:100%">
           </div>
           <div class="carousel-item">
-            <img src="assets/images/voter/banner/check.png" alt="Chicago" class="d-block" style="width:100%">
+            <img src="assets/images/voter/banner/login.png" alt="Chicago" class="d-block" style="width:100%">
           </div>
           <div class="carousel-item">
             <img src="assets/images/voter/banner/proud.png" alt="New York" class="d-block" style="width:100%">
@@ -188,14 +188,7 @@
             <h3 class="text-success">1,100</h3>
             <p>Active Voters</p>
           </div>
-          <div class="col-md-3">
-            <h3 class="text-danger">145</h3>
-            <p>Unregistered Citizens</p>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-warning">15</h3>
-            <p>Pending Approvals</p>
-          </div>
+         
         </div>
       </div>
     </section>

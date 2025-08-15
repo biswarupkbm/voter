@@ -68,3 +68,8 @@ Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('
 Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
 Route::post('members/import', [MemberController::class, 'import'])->name('members.import');
 Route::post('members/{member}/upload-card', [MemberController::class, 'uploadCard'])->name('members.uploadCard');
+
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
