@@ -20,6 +20,9 @@ Route::get('/student', function () {
 //     return view('admin.index');
 // });
 
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 Route::get('/register', [AuthController::class, 'showForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
@@ -56,7 +59,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.o
 
 
 
-Route::resource('members', MemberController::class);
+// Route::resource('members', MemberController::class);
 // Route::get('/members', [MemberController::class, 'index'])->name('members.index');
 // Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
 // Route::post('/members', [MemberController::class, 'store'])->name('members.store');
@@ -64,12 +67,30 @@ Route::resource('members', MemberController::class);
 // Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
 // Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 
+// // Extra endpoints
+// Route::post('members/import', [MemberController::class, 'import'])->name('members.import');
+// Route::post('/members/{id}/upload-card', [MemberController::class, 'uploadCard']);
+// Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
+// Route::post('/members/download', [MemberController::class, 'download']);
+
+
+
+// -------------------------------
+// Members CRUD (without 'show')
+// -------------------------------
+Route::resource('members', MemberController::class)->except(['show']);
+
+// -------------------------------
 // Extra endpoints
-Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
+// -------------------------------
 Route::post('members/import', [MemberController::class, 'import'])->name('members.import');
-Route::post('members/{member}/upload-card', [MemberController::class, 'uploadCard'])->name('members.uploadCard');
+Route::post('/members/{id}/upload-card', [MemberController::class, 'uploadCard'])->name('members.uploadCard');
+Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
+// Route::post('/members/download', [MemberController::class, 'download'])->name('members.download');
+Route::get('/members/download', [MemberController::class, 'download'])->name('members.download');
 
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+// -------------------------------
+// Delete all members + images
+// -------------------------------
+Route::delete('members/delete-all', [MemberController::class, 'deleteAllMembers'])->name('members.deleteAll');
