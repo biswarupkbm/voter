@@ -21,13 +21,39 @@
 <div class="container mt-4">
     <h2 class="mb-3">Members List</h2>
 
+    {{-- Flash messages --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- Validation errors --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="mb-3 d-flex gap-2">
         <a href="{{ route('members.create') }}" class="btn btn-primary">Add New Member</a>
 
         <form id="importForm" action="{{ route('members.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
             @csrf
-            <input type="file" name="file" id="importFile" accept=".csv, .xls, .xlsx" class="form-control form-control-sm" style="max-width:300px;">
-            <button type="submit" class="btn btn-outline-secondary btn-sm">Import CSV / XLSX</button>
+            <!-- accept only Excel per your requirement -->
+            <input type="file" name="file" id="importFile" accept=".xls, .xlsx" class="form-control form-control-sm" style="max-width:300px;">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Import Excel (.xls / .xlsx)</button>
         </form>
 
         <button id="saveAllBtn" class="btn btn-success ms-auto">Save All Changes (Bulk)</button>
@@ -56,7 +82,8 @@
                 <td><input type="text" class="form-control field" name="mandal" value="{{ $member->mandal }}" readonly></td>
                 <td><input type="text" class="form-control field" name="state" value="{{ $member->state }}" readonly></td>
                 <td class="text-center voter-card-cell">
-                    @if($member->voter_card)
+                    {{-- show icon only when voter_card is set and not the default 'N/A' --}}
+                    @if($member->voter_card && $member->voter_card !== 'N/A')
                         <i class="fa fa-eye text-info fs-5 view-card" style="cursor:pointer" data-src="{{ asset($member->voter_card) }}" title="View"></i>
                         <br>
                         <!-- <img src="{{ asset($member->voter_card) }}" alt="card" style="max-width:60px; margin-top:6px; cursor:pointer" class="img-thumbnail view-card" data-src="{{ asset($member->voter_card) }}"> -->

@@ -57,12 +57,12 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.o
 
 
 Route::resource('members', MemberController::class);
-Route::get('/members', [MemberController::class, 'index'])->name('members.index');
-Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
-Route::post('/members', [MemberController::class, 'store'])->name('members.store');
-Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
-Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
-Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+// Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+// Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+// Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+// Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+// Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
+// Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 
 // Extra endpoints
 Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
