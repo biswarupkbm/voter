@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+
+//for download
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class MemberController extends Controller
 {
@@ -22,259 +31,328 @@ class MemberController extends Controller
         return view('members.create');
     }
 
+    // -------------------------------
+    // Manual add voter
+    // -------------------------------
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'father_name' => 'required',
-            'voter_id'    => 'required|unique:members,voter_id',
-            'gender'      => 'required',
-            'village'     => 'required',
-            'post'        => 'required',
-            'panchayath'  => 'required',
-            'mandal'      => 'required',
-            'state'       => 'required',
-            'voter_card'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'name'        => 'required|string|max:255',
+            'father_name' => 'required|string|max:255',
+            'voter_id'    => 'required|string|unique:members,voter_id',
+            'gender'      => 'required|string',
+            'village'     => 'required|string|max:255',
+            'post'        => 'required|string|max:255',
+            'panchayath'  => 'required|string|max:255',
+            'mandal'      => 'required|string|max:255',
+            'state'       => 'required|string|max:255',
+            'voter_card'  => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $filePath = null;
+        $filename = null;
         if ($request->hasFile('voter_card')) {
-            $filename = time().'_'.$request->file('voter_card')->getClientOriginalName();
-            $request->file('voter_card')->move(public_path('images/voter_cards'), $filename);
-            $filePath = 'images/voter_cards/' . $filename;
+            $file = $request->file('voter_card');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/voter_card'), $filename);
         }
 
-        Member::create([
-            'name'        => $request->name,
-            'father_name' => $request->father_name,
-            'voter_id'    => $request->voter_id,
-            'gender'      => $request->gender,
-            'village'     => $request->village,
-            'post'        => $request->post,
-            'panchayath'  => $request->panchayath,
-            'mandal'      => $request->mandal,
-            'state'       => $request->state,
-            'voter_card'  => $filePath ?? 'N/A', // default if missing
-        ]);
+        $member = new Member();
+        $member->name        = $request->name;
+        $member->father_name = $request->father_name;
+        $member->voter_id    = $request->voter_id;
+        $member->gender      = $request->gender;
+        $member->village     = $request->village;
+        $member->post        = $request->post;
+        $member->panchayath  = $request->panchayath;
+        $member->mandal      = $request->mandal;
+        $member->state       = $request->state;
+        $member->voter_card  = 'images/voter_card/'.$filename;
+        $member->save();
 
-        return redirect()->route('members.index')->with('success', 'Member added successfully.');
+        return redirect()->back()->with('success', 'Voter added successfully!');
     }
 
+    // -------------------------------
+    // Update voter
+    // -------------------------------
     public function update(Request $request, $id)
     {
         $member = Member::findOrFail($id);
 
         $request->validate([
-            'name'        => 'required',
-            'father_name' => 'required',
-            'voter_id'    => "required|unique:members,voter_id,{$id}",
-            'gender'      => 'required',
-            'village'     => 'required',
-            'post'        => 'required',
-            'panchayath'  => 'required',
-            'mandal'      => 'required',
-            'state'       => 'required',
-            'voter_card'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'=>'required',
+            'father_name'=>'required',
+            'voter_id'=>"required|unique:members,voter_id,{$id}",
+            'gender'=>'required',
+            'village'=>'required',
+            'post'=>'required',
+            'panchayath'=>'required',
+            'mandal'=>'required',
+            'state'=>'required',
+            'voter_card'=>'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $updatedData = $request->only([
-            'name', 'father_name', 'voter_id', 'gender', 'village',
-            'post', 'panchayath', 'mandal', 'state'
-        ]);
+        $data = $request->except('voter_card');
 
         if ($request->hasFile('voter_card')) {
-            $filename = time().'_'.$request->file('voter_card')->getClientOriginalName();
-            $request->file('voter_card')->move(public_path('images/voter_cards'), $filename);
-            $updatedData['voter_card'] = 'images/voter_cards/' . $filename;
+            $file = $request->file('voter_card');
 
-            if ($member->voter_card && file_exists(public_path($member->voter_card)) && $member->voter_card !== 'N/A') {
-                @unlink(public_path($member->voter_card));
+            // Ensure the folder exists
+            if (!File::exists(public_path('images/voter_card'))) {
+                File::makeDirectory(public_path('images/voter_card'), 0755, true);
             }
+
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/voter_card'), $filename);
+
+            // Delete old file if exists
+            if ($member->voter_card && File::exists(public_path($member->voter_card))) {
+                File::delete(public_path($member->voter_card));
+            }
+
+            $data['voter_card'] = 'images/voter_card/'.$filename;
         }
 
-        $member->update($updatedData);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Member updated successfully.'
-        ]);
+        $member->update($data);
+        return response()->json(['success'=>true,'message'=>'Member updated successfully.']);
     }
 
+
+    // -------------------------------
+    // Delete voter
+    // -------------------------------
     public function destroy($id)
     {
         $member = Member::find($id);
-        if (!$member) {
-            return response()->json(['success' => false, 'message' => 'Member not found'], 404);
-        }
+        if (!$member) return response()->json(['success'=>false,'message'=>'Member not found'],404);
 
-        if ($member->voter_card && file_exists(public_path($member->voter_card)) && $member->voter_card !== 'N/A') {
-            unlink(public_path($member->voter_card));
+        if ($member->voter_card && File::exists(public_path($member->voter_card))) {
+            File::delete(public_path($member->voter_card));
         }
 
         $member->delete();
-        return response()->json(['success' => true]);
+        return response()->json(['success'=>true]);
     }
 
-    public function bulkUpsert(Request $request)
+    // -------------------------------
+    // Delete all members + images
+    // -------------------------------
+    public function deleteAllMembers()
     {
-        $data = $request->input('members', []);
-        if (empty($data)) {
-            return response()->json(['success' => false, 'message' => 'No members provided'], 422);
-        }
-
-        $rows = [];
-        foreach ($data as $item) {
-            $rows[] = [
-                'id'          => $item['id'] ?? null,
-                'name'        => $item['name'] ?? null,
-                'father_name' => $item['father_name'] ?? null,
-                'voter_id'    => $item['voter_id'] ?? null,
-                'gender'      => $item['gender'] ?? null,
-                'village'     => $item['village'] ?? null,
-                'post'        => $item['post'] ?? null,
-                'panchayath'  => $item['panchayath'] ?? null,
-                'mandal'      => $item['mandal'] ?? null,
-                'state'       => $item['state'] ?? null,
-                'voter_card'  => $item['voter_card'] ?? 'N/A',
-            ];
-        }
-
-        foreach ($rows as $idx => $r) {
-            if (empty($r['voter_id']) || empty($r['name'])) {
-                return response()->json([
-                    'success' => false,
-                    'message' => "Row " . ($idx+1) . " missing required fields."
-                ], 422);
+        $members = Member::all();
+        foreach ($members as $member) {
+            if ($member->voter_card && File::exists(public_path($member->voter_card))) {
+                File::delete(public_path($member->voter_card));
             }
         }
 
-        $updateColumns = ['name','father_name','gender','village','post','panchayath','mandal','state','voter_card'];
-
-        $upsertRows = array_map(function($r){
-            if (empty($r['id'])) unset($r['id']);
-            return $r;
-        }, $rows);
-
-        $chunks = array_chunk($upsertRows, 500);
-        DB::beginTransaction();
-        try {
-            foreach ($chunks as $chunk) {
-                Member::upsert($chunk, ['voter_id'], $updateColumns);
-            }
-            DB::commit();
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Bulk upsert failed: '.$e->getMessage()], 500);
-        }
-
-        return response()->json(['success' => true, 'message' => 'Bulk upsert completed.']);
+        Member::truncate();
+        return back()->with('success','All members and their images have been deleted.');
     }
 
+    // -------------------------------
+    // Excel import with images
+    // -------------------------------
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|max:51200',
+            'file'=>'required|file|max:51200',
         ]);
 
         $file = $request->file('file');
         $ext = strtolower($file->getClientOriginalExtension());
+
+        if (!in_array($ext,['xls','xlsx'])) {
+            return back()->with('error','Only .xls or .xlsx files are allowed.');
+        }
+
+        $spreadsheet = IOFactory::load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
         $rows = [];
+        $images = [];
 
-       if (in_array($ext, ['xls','xlsx'])) {
-    try {
-        $array = Excel::toArray(null, $file);
-        $sheet = $array[0] ?? [];
-        $header = array_map('strtolower', $sheet[0] ?? []);
-        foreach (array_slice($sheet, 1) as $line) {
-            // Match column count
-            if (count($header) !== count($line)) {
-                continue; // skip invalid rows
+        // Extract images from Excel
+        foreach ($sheet->getDrawingCollection() as $drawing) {
+            $coordinates = $drawing->getCoordinates();
+            if ($drawing instanceof MemoryDrawing) {
+                ob_start();
+                call_user_func($drawing->getRenderingFunction(), $drawing->getImageResource());
+                $imageContents = ob_get_clean();
+                $images[$coordinates] = $imageContents;
+            } elseif (method_exists($drawing,'getPath')) {
+                $path = $drawing->getPath();
+                $images[$coordinates] = file_get_contents($path);
             }
-            $rows[] = array_combine($header, $line);
         }
-    } catch (\Throwable $e) {
-        return back()->with('error', 'Excel import failed: '.$e->getMessage());
-    }
-} else {
-    if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
-        $header = null;
-        while (($data = fgetcsv($handle, 0, ",")) !== false) {
-            if (!$header) {
-                $header = array_map('strtolower', $data);
-                continue;
+
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        $headerRow = $sheet->rangeToArray('A1:'.$highestColumn.'1',NULL,TRUE,FALSE)[0];
+        $headerRow = array_map('strtolower',$headerRow);
+
+        for ($row=2;$row<=$highestRow;$row++) {
+            $line = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row,NULL,TRUE,FALSE)[0];
+            $rowData = array_combine($headerRow,$line);
+
+            if (empty($rowData['name']) || empty($rowData['father_name']) || empty($rowData['voter_id'])) continue;
+
+            $cell = 'J'.$row; // assuming image column is J
+            if (isset($images[$cell])) {
+                $filename = 'voter_card_'.time().'_'.$row.'.png';
+                file_put_contents(public_path('images/voter_card/'.$filename), $images[$cell]);
+                $rowData['voter_card'] = 'images/voter_card/'.$filename;
+            } else {
+                $rowData['voter_card'] = 'N/A';
             }
-            if (count($header) !== count($data)) {
-                continue; // skip invalid rows
-            }
-            $rows[] = array_combine($header, $data);
-        }
-        fclose($handle);
-    }
-}
 
-
-        $normalized = [];
-        foreach ($rows as $r) {
-            $map = array_change_key_case($r, CASE_LOWER);
-            $normalized[] = [
-                'name'        => $map['name'] ?? null,
-                'father_name' => $map['father_name'] ?? null,
-                'voter_id'    => $map['voter_id'] ?? null,
-                'gender'      => $map['gender'] ?? null,
-                'village'     => $map['village'] ?? null,
-                'post'        => $map['post'] ?? null,
-                'panchayath'  => $map['panchayath'] ?? null,
-                'mandal'      => $map['mandal'] ?? null,
-                'state'       => $map['state'] ?? null,
-                'voter_card'  => 'N/A',
-            ];
+            $rows[] = $rowData;
         }
 
-        if (empty($normalized)) {
-            return back()->with('error', 'No rows to import or invalid file headers.');
-        }
+        if (empty($rows)) return back()->with('error','No valid rows found in Excel.');
 
-        $chunks = array_chunk($normalized, 500);
+        $updateColumns = ['name','father_name','gender','village','post','panchayath','mandal','state','voter_card'];
+
         DB::beginTransaction();
         try {
+            $chunks = array_chunk($rows,500);
             foreach ($chunks as $chunk) {
-                Member::upsert($chunk, ['voter_id'], ['name','father_name','gender','village','post','panchayath','mandal','state','voter_card']);
+                Member::upsert($chunk,['voter_id'],$updateColumns);
             }
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
-            return back()->with('error', 'Import failed: '.$e->getMessage());
+            return back()->with('error','Import failed: '.$e->getMessage());
         }
 
-        return back()->with('success', 'File imported successfully.');
+        return back()->with('success','Excel imported successfully with images.');
     }
 
-    public function uploadCard(Request $request, Member $member)
+    // -------------------------------
+    // AJAX upload voter card
+    // -------------------------------
+    public function uploadCard(Request $request, $id)
     {
+        $member = Member::findOrFail($id);
+
         $request->validate([
-            'voter_card' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'voter_card' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        if ($request->hasFile('voter_card')) {
-            $filename = time().'_'.$request->file('voter_card')->getClientOriginalName();
-            $request->file('voter_card')->move(public_path('images/voter_cards'), $filename);
-            $path = 'images/voter_cards/' . $filename;
+        $file = $request->file('voter_card');
 
-            if ($member->voter_card && file_exists(public_path($member->voter_card)) && $member->voter_card !== 'N/A') {
-                @unlink(public_path($member->voter_card));
-            }
-
-            $member->voter_card = $path;
-            $member->save();
-
-            return response()->json(['success' => true, 'path' => asset($path)]);
+        // Ensure folder exists
+        if (!File::exists(public_path('images/voter_card'))) {
+            File::makeDirectory(public_path('images/voter_card'), 0755, true);
         }
 
-        return response()->json(['success' => false, 'message' => 'No file uploaded'], 422);
-    }
-}
+        $filename = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('images/voter_card'), $filename);
 
-function is_associative_array($arr) {
-    if (!is_array($arr)) return false;
-    return array_keys($arr) !== range(0, count($arr) - 1);
+        // Delete old file
+        if ($member->voter_card && File::exists(public_path($member->voter_card))) {
+            File::delete(public_path($member->voter_card));
+        }
+
+        $member->voter_card = 'images/voter_card/'.$filename;
+        $member->save();
+
+        return response()->json(['success' => true, 'path' => asset($member->voter_card)]);
+    }
+
+    // -------------------------------
+    // Download members
+    // -------------------------------
+    public function download(Request $request)
+    {
+        $request->validate([
+            'fileType' => 'required|in:excel,csv,pdf',
+            'imageOption' => 'nullable|in:with,without,url',
+            'searchQuery' => 'nullable|string'
+        ]);
+
+        $fileType = $request->fileType;
+        $imageOption = $request->imageOption ?? 'without';
+        $searchQuery = $request->searchQuery ?? '';
+
+        $members = Member::query();
+
+        if ($searchQuery) {
+            $members = $members->where(function($q) use ($searchQuery) {
+                $q->where('name','like','%'.$searchQuery.'%')
+                ->orWhere('father_name','like','%'.$searchQuery.'%')
+                ->orWhere('voter_id','like','%'.$searchQuery.'%')
+                ->orWhere('gender','like','%'.$searchQuery.'%')
+                ->orWhere('village','like','%'.$searchQuery.'%')
+                ->orWhere('post','like','%'.$searchQuery.'%')
+                ->orWhere('panchayath','like','%'.$searchQuery.'%')
+                ->orWhere('mandal','like','%'.$searchQuery.'%')
+                ->orWhere('state','like','%'.$searchQuery.'%');
+            });
+        }
+
+        $members = $members->get();
+
+        // Excel / CSV
+        if ($fileType === 'excel' || $fileType === 'csv') {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setTitle('Members');
+
+            $headers = ['#','Name','Father Name','Voter ID','Gender','Village','Post','Panchayath','Mandal','State','Voter Card'];
+            $sheet->fromArray($headers, NULL, 'A1');
+
+            $rowIndex = 2;
+            foreach ($members as $i => $m) {
+                $sheet->setCellValue("A{$rowIndex}", $i+1);
+                $sheet->setCellValue("B{$rowIndex}", $m->name);
+                $sheet->setCellValue("C{$rowIndex}", $m->father_name);
+                $sheet->setCellValue("D{$rowIndex}", $m->voter_id);
+                $sheet->setCellValue("E{$rowIndex}", $m->gender);
+                $sheet->setCellValue("F{$rowIndex}", $m->village);
+                $sheet->setCellValue("G{$rowIndex}", $m->post);
+                $sheet->setCellValue("H{$rowIndex}", $m->panchayath);
+                $sheet->setCellValue("I{$rowIndex}", $m->mandal);
+                $sheet->setCellValue("J{$rowIndex}", $m->state);
+
+                if ($imageOption === 'with' && $m->voter_card && File::exists(public_path($m->voter_card))) {
+                    $drawing = new Drawing();
+                    $drawing->setPath(public_path($m->voter_card));
+                    $drawing->setHeight(60);
+                    $drawing->setCoordinates("K{$rowIndex}");
+                    $drawing->setWorksheet($sheet);
+                } elseif ($imageOption === 'url') {
+                    $sheet->setCellValue("K{$rowIndex}", asset($m->voter_card));
+                } else {
+                    $sheet->setCellValue("K{$rowIndex}", 'N/A');
+                }
+
+                $rowIndex++;
+            }
+
+            if ($fileType === 'excel') {
+                $writer = new Xlsx($spreadsheet);
+                $fileName = 'members.xlsx';
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            } else {
+                $writer = new Csv($spreadsheet);
+                $fileName = 'members.csv';
+                header('Content-Type: text/csv');
+            }
+
+            header("Content-Disposition: attachment; filename=\"{$fileName}\"");
+            $writer->save('php://output');
+            exit;
+        }
+
+        // PDF
+        if ($fileType === 'pdf') {
+            return Pdf::loadView('members.download_pdf', [
+                    'pdfData' => $members,
+                    'imageOption' => $imageOption
+                ])->download('members.pdf');
+        }
+    }
+
+
+
 }
