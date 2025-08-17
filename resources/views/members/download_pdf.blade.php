@@ -2,7 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Members PDF</title>
+    <!-- Title -->
+    <title>voters</title>
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="assets/images/voter/logo/logo.png" type="image/x-icon">
     <style>
         body { font-family: sans-serif; font-size: 12px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }

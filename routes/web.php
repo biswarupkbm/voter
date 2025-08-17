@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SubscriberController;
@@ -24,13 +25,10 @@ Route::get('/index', function () {
     return view('admin.index');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/app', function () {
-    return view('layouts.app');
-})->name('app');
+// Route::get('/contact', function () {
+//     return view('contact');
+// });
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/register', [AuthController::class, 'showForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
@@ -40,52 +38,41 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe');
 
-// Dashboards (protected by middleware)
-Route::middleware('role:admin')->get('/admin/dashboard', [AuthController::class, 'adminDashboard'])->name('admin.dashboard');
-Route::middleware('role:user')->get('/user/dashboard', [AuthController::class, 'userDashboard'])->name('user.dashboard');
+// Admin Dashboard (protected by 'admin' role)
+Route::middleware('authCheck:admin')->get('/admin/dashboard', [AuthController::class, 'adminDashboard'])->name('admin.dashboard');
 
-// Admin Dashboard (session-based role check in route closure)
-Route::get('/index', function () {
+// User Dashboard (protected by 'user' role)
+Route::middleware('authCheck:user')->get('/user/dashboard', [AuthController::class, 'userDashboard'])->name('user.dashboard');
+
+// Admin Dashboard Route
+Route::get('admin/index', function () {
     if (session('user_role') === 'admin') {
         return view('admin.index');
     }
     abort(403, 'Unauthorized access');
 })->name('admin.index');
 
-// User Dashboard (session-based role check in route closure)
-Route::get('/index', function () {
-  if (session('user_role') === 'user') {
-        return view('admin.index');
+// User Dashboard Route
+Route::get('user/index', function () {
+    if (session('user_role') === 'user') {
+        return view('user.index');
     }
     abort(403, 'Unauthorized access');
-})->name('admin.index');
-    
+})->name('user.index');
+
 // OTP verification routes
 Route::get('/verify-otp', [AuthController::class, 'showOtpForm'])->name('verify.otp.form');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.otp.submit');
 
 
 
-// Route::resource('members', MemberController::class);
-// Route::get('/members', [MemberController::class, 'index'])->name('members.index');
-Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
-// Route::post('/members', [MemberController::class, 'store'])->name('members.store');
-// Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
-// Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
-// Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
-
-// // Extra endpoints
-// Route::post('members/import', [MemberController::class, 'import'])->name('members.import');
-// Route::post('/members/{id}/upload-card', [MemberController::class, 'uploadCard']);
-// Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
-// Route::post('/members/download', [MemberController::class, 'download']);
-
-
-
-// -------------------------------
-// Members CRUD (without 'show')
-// -------------------------------
 Route::resource('members', MemberController::class)->except(['show']);
+Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
+Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 
 // -------------------------------
 // Extra endpoints
@@ -93,8 +80,9 @@ Route::resource('members', MemberController::class)->except(['show']);
 Route::post('members/import', [MemberController::class, 'import'])->name('members.import');
 Route::post('/members/{id}/upload-card', [MemberController::class, 'uploadCard'])->name('members.uploadCard');
 Route::post('members/bulk-upsert', [MemberController::class, 'bulkUpsert'])->name('members.bulkUpsert');
-// Route::post('/members/download', [MemberController::class, 'download'])->name('members.download');
 Route::get('/members/download', [MemberController::class, 'download'])->name('members.download');
+
+
 
 
 // -------------------------------

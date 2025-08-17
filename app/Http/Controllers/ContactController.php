@@ -9,20 +9,21 @@ class ContactController extends Controller
 {
     public function store(Request $request)
     {
-        // validate form
+        // Validate form data
         $request->validate([
             'name'    => 'required|max:255',
             'email'   => 'required|email',
             'message' => 'required',
         ]);
 
-        // store in database
+        // Store in the database
         ContactQuery::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'message' => $request->message,
         ]);
 
-        return back()->with('success', 'Your query has been submitted successfully!');
+        // Redirect back with success message
+        return redirect('/contact')->with('success', 'Your query has been submitted successfully!');
     }
 }

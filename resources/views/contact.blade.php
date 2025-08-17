@@ -1,36 +1,3 @@
-<!-- 
-<div class="card shadow">
-    <div class="card-body">
-        <h2 class="mb-3">Help & Contact</h2>
-        <p>If you have any questions or face issues during voter registration, please contact us:</p>
-
-        <ul class="list-group">
-            <li class="list-group-item"><strong>Helpline Number:</strong> +91 98765 43210</li>
-            <li class="list-group-item"><strong>Email:</strong> help@voterportal.in</li>
-            <li class="list-group-item"><strong>Office Address:</strong> Election Office, Main Street, Your City</li>
-        </ul>
-
-        <hr>
-        <h5>Submit a Query</h5>
-        <form>
-            <div class="mb-3">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Enter your name">
-            </div>
-            <div class="mb-3">
-                <label>Email</label>
-                <input type="email" class="form-control" placeholder="Enter your email">
-            </div>
-            <div class="mb-3">
-                <label>Message</label>
-                <textarea class="form-control" rows="4" placeholder="Enter your message"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Send</button>
-        </form>
-    </div>
-</div> -->
-
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -66,6 +33,9 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Add SweetAlert2 CDN in your Blade file -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     .border-bottom-quick-link {
       display: inline-block;
@@ -162,37 +132,100 @@
       </header>
     </section>
 
-    <div class="card shadow">
-        <div class="card-body">
-            <h2 class="mb-3">Help & Contact</h2>
-            <p>If you have any questions or face issues during voter registration, please contact us:</p>
+<section class="card shadow">
+    <div class="card-body">
+        <h2 class="mb-3">Help & Contact</h2>
+        <p>If you have any questions or face issues during voter registration, please contact us:</p>
 
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Helpline Number:</strong> +91 98765 43210</li>
-                <li class="list-group-item"><strong>Email:</strong> help@voterportal.in</li>
-                <li class="list-group-item"><strong>Office Address:</strong> Election Office, Main Street, Your City</li>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Helpline Number:</strong> +91 98765 43210</li>
+            <li class="list-group-item"><strong>Email:</strong> help@voterportal.in</li>
+            <li class="list-group-item"><strong>Office Address:</strong> Election Office, Main Street, Your City</li>
+        </ul>
+        <hr>
+        <h5>Submit a Query</h5>
+        
+        <!-- Contact Form -->
+        <form action="{{ route('contact.store') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" required>
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required></textarea>
+                @error('message')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</section>
+<!-- SweetAlert Popup for Success -->
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+
+    <footer class="bg-primary text-white pt-5 pb-3 ">
+      <div class="container ">
+        <div class="row">
+          <!-- Column 1: Info -->
+          <div class="col-md-3 mb-4">
+            <h5 class="border-bottom pb-2">Get Registered, Log In & Update And Check</h5>
+            <p>
+              Register as a voter and participate in shaping the future of your nation.
+              Our online voter registration system makes it easy to create your profile,
+              log in securely, and track the status of your voter card application.
+              Ensure your details are up to date and be ready to cast your vote with confidence.
+            </p>
+
+            <p><i class="bi bi-person-badge"></i> Sarpanch - Voter Registration Administrator</p>
+            <div>
+              <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-white me-3"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" class="text-white me-3"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="text-white me-3"><i class="bi bi-telegram"></i></a>
+            </div>
+          </div>
+
+          <!-- Column 2: Election Image -->
+          <div class="col-md-3 mb-4 text-center">
+
+          </div>
+
+          <!-- Column 3: Quick Links -->
+          <div class="col-md-3 mb-4">
+            <h5 class="border-bottom-quick-link pb-2">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="/" class="text-white">home</a></li>
+              <li><a href="contact" class="text-white">Contact Us</a></li>
+              <li><a href="auth" class="text-white">sing in</a></li>
             </ul>
-
-            <hr>
-            <h5>Submit a Query</h5>
-            <form>
-                <div class="mb-3">
-                    <label>Name</label>
-                    <input type="text" class="form-control" placeholder="Enter your name">
-                </div>
-                <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" class="form-control" placeholder="Enter your email">
-                </div>
-                <div class="mb-3">
-                    <label>Message</label>
-                    <textarea class="form-control" rows="4" placeholder="Enter your message"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        </div>
-    </div> 
-
+          </div>
 
           <div class="footer-subscribe position-absolute" style="width: 350px;">
             <form id="subscribeForm" class="d-flex align-items-center gap-2">
@@ -294,4 +327,3 @@
 </body>
 
 </html>
-    

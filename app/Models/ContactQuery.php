@@ -10,4 +10,7 @@ class ContactQuery extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'email', 'message'];
+
+    // Specify the table name (if it differs from the default plural model name)
+    protected $table = 'contacts';
 }

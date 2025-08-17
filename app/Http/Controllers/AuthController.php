@@ -100,21 +100,25 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
+            // Store session data
             session([
                 'user_id' => $user->id,
                 'user_name' => $user->name,
-                'user_role' => $user->role,
+                'user_role' => $user->role,  // Ensure this is set correctly
             ]);
 
+            // Redirect based on role
             if ($user->role === 'admin') {
                 return redirect()->route('admin.index');
             } else {
-                return redirect()->route('admin.index');
+                return redirect()->route('user.index');
             }
         }
 
         return back()->withErrors(['email' => 'Invalid email or password'])->with('form', 'login');
     }
+
+
 
     // Optional: Admin dashboard (session-based check)
     public function adminDashboard()
@@ -129,7 +133,7 @@ class AuthController extends Controller
     public function userDashboard()
     {
         if (session('user_role') === 'user') {
-            return view('admin.index');
+            return view('user.index');
         }
         abort(403, 'Unauthorized access');
     }

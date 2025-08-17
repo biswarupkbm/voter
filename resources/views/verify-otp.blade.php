@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OTP Verification</title>
+    <!-- Title -->
+    <title>voters</title>
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="assets/images/voter/logo/logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background: #e0f7fa;">

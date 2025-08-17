@@ -8,7 +8,10 @@
 	<meta name="keywords" content="admin, estimates, bootstrap, business, html5, responsive, Projects">
 	<meta name="author" content="Dreams technologies - Bootstrap Admin Template">
 	<meta name="robots" content="noindex, nofollow">
-	<title>Preskool Admin Template</title>
+	<!-- Title -->
+  <title>voters</title>
+  <!-- Favicon Icon -->
+  <link rel="shortcut icon" href="assets/images/voter/logo/logo.png" type="image/x-icon">
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="asset/assets/img/favicon.png">
@@ -44,6 +47,7 @@
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="asset/assets/css/style.css">
+
 
 </head>
 
