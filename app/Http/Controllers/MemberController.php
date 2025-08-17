@@ -224,7 +224,7 @@ class MemberController extends Controller
             return back()->with('error','Import failed: '.$e->getMessage());
         }
 
-        return back()->with('success','Excel imported successfully with images.');
+        return back()->with('success','File upload successfully.');
     }
 
     // -------------------------------
