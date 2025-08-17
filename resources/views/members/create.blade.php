@@ -7,12 +7,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { background: linear-gradient(135deg, #51fff1ff, #e5b816ff); font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #7151ffff, #855de2ff); font-family: 'Poppins', sans-serif; }
         .container { max-width: 600px; margin: 50px auto; padding: 20px; }
-        .card { background: #ffb74cff; border-radius: 20px; padding: 25px; color: #fff; }
+        .card { background: #f0f0f0; border-radius: 20px; padding: 25px; color: #1111bbff; }
         .card h4 { text-align:center; margin-bottom:20px; }
         .form-group label { display:block; margin-bottom:6px; color:#070607ff; }
-        .form-group input, .form-group select { width:100%; padding:10px; border-radius:12px; border:none; background:#fff; color:#181010ff; }
+        .form-group input, .form-group select { width:100%; padding:10px; border-radius:12px; border:none; background:  #ffff#333333; color:#181010ff; }
         .btn-submit { width:100%; padding:12px; font-weight:bold; border:none; border-radius:12px; background:linear-gradient(90deg,#e22d84ff,#4a00e0); color:white; cursor:pointer; }
         .btn-submit:hover { background:linear-gradient(90deg,#e0005aff,#2d9ae2ff); }
         small.text-danger { color:#ff6b6b !important; font-size:12px; }
