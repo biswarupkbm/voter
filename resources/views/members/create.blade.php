@@ -75,7 +75,7 @@
             <form action="{{ route('members.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="file" name="file" accept=".xls,.xlsx" class="form-control mb-3" required>
-                <button type="submit" class="btn btn-outline-light">Upload Excel</button>
+                <button type="submit" class="btn-submit">Upload</button>
             </form>
         </div>
     </div>

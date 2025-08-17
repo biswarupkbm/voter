@@ -181,25 +181,26 @@
         <h2 class="fw-bold mb-4">Live Voter Statistics</h2>
         <div class="row">
           <div class="col-md-3">
-            <h3 class="text-primary">1,245</h3>
+            <h3 class="text-primary">{{ number_format($totalVoters) }}</h3>
             <p>Total Voters</p>
           </div>
           <div class="col-md-3">
-            <h3 class="text-success">1,100</h3>
+            <h3 class="text-success">{{ number_format($totalVillages) }}</h3>
             <p>Total Villages</p>
           </div>
           <div class="col-md-3">
-            <h3 class="text-primary">1,245</h3>
+            <h3 class="text-primary">{{ number_format($totalPosts) }}</h3>
             <p>Total Post</p>
           </div>
           <div class="col-md-3">
-            <h3 class="text-success">1,100</h3>
+            <h3 class="text-success">{{ number_format($totalPanchayats) }}</h3>
             <p>Total Panchayat</p>
           </div>
          
         </div>
       </div>
     </section>
+
 
     <!-- Latest Updates -->
     <section class="bg-light py-5">
@@ -290,7 +291,7 @@
             <h5 class="border-bottom-quick-link pb-2">Quick Links</h5>
             <ul class="list-unstyled">
               <li><a href="/" class="text-white">home</a></li>
-              <li><a href="#" class="text-white">Contact Us</a></li>
+              <li><a href="contact" class="text-white">Contact Us</a></li>
               <li><a href="auth" class="text-white">sing in</a></li>
             </ul>
           </div>
