@@ -186,7 +186,15 @@
           </div>
           <div class="col-md-3">
             <h3 class="text-success">1,100</h3>
-            <p>Active Voters</p>
+            <p>Total Villages</p>
+          </div>
+          <div class="col-md-3">
+            <h3 class="text-primary">1,245</h3>
+            <p>Total Post</p>
+          </div>
+          <div class="col-md-3">
+            <h3 class="text-success">1,100</h3>
+            <p>Total Panchayat</p>
           </div>
          
         </div>
